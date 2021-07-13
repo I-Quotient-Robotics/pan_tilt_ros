@@ -1,4 +1,4 @@
-# iqr_pan_tilt
+# pan_tilt_ros
 IQR第四代云台ROS驱动
 
 ## 环境要求
@@ -21,7 +21,7 @@ cd ~/ros_ws/src
 ```
 克隆代码并编译
 ```shell
-git clone https://github.com/I-Quotient-Robotics/iqr_pan_tilt.git
+git clone https://github.com/I-Quotient-Robotics/pan_tilt_ros.git
 cd ..
 catkin_make
 ```
