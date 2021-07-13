@@ -1,0 +1,22 @@
+## pan tilt ststus msg
+Header  header
+uint8   id
+string  serial_num
+string  hw_version
+string  bd_version
+string  sw_version
+uint8   set_zero
+int16   speed
+float32 yaw_goal
+float32 pitch_goal
+uint16  reserved
+uint16  driver_ec
+uint16  encoder_ec
+float32 yaw_now
+float32 pitch_now
+float32 yaw_temp
+float32 pitch_temp
+int16   yaw_raw
+int16   pitch_raw
+uint16  loop_ec
+uint16  loop_time

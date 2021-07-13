@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pan_tilt_bringup</name>
+  <version>1.0.0</version>
+  <description>The pan_tilt_bringup package</description>
+
+  <!-- Author -->
+  <maintainer email="lei.yan@iquotient-robotics.com">QuartzYan</maintainer>
+
+  <!-- License -->
+  <license>MIT</license>
+  
+  <!-- depend -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <export>
+
+  </export>
+</package>
