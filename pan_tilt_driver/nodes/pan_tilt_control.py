@@ -3,7 +3,7 @@ import math
 import rospy
 
 from sensor_msgs.msg import Joy
-from pan_tilt_msgs.msg import PanTiltCmd
+from pan_tilt_msgs.msg import PanTiltCmdDeg
 
 delta_value = 2
 pan_tilt_yaw = 0.0
@@ -51,7 +51,7 @@ def joy_callback(data):
   if(pan_tilt_yaw < -60):
     pan_tilt_yaw = -60
 
-  command = PanTiltCmd()
+  command = PanTiltCmdDeg()
   command.speed = 20.0
   command.yaw = pan_tilt_yaw
   command.pitch = pan_tilt_pitch
@@ -62,7 +62,7 @@ def main():
   global publisher
   rospy.init_node("pan_tilt_control_node")
   rospy.Subscriber("joy", Joy, joy_callback)
-  publisher = rospy.Publisher('pan_tilt_cmd_deg', PanTiltCmd, queue_size=10)
+  publisher = rospy.Publisher('pan_tilt_cmd_deg', PanTiltCmdDeg, queue_size=10)
   
   rospy.loginfo("PanTilt Control Start")
   rospy.spin()
