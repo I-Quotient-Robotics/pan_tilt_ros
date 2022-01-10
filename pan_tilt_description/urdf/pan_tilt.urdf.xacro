@@ -12,7 +12,7 @@
 
     <link name="${prefix}_base_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${P_PI/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 -${P_PI/2}"/>
         <geometry>
           <mesh filename="package://pan_tilt_description/urdf/mesh/base.stl"/>
         </geometry>
@@ -24,7 +24,7 @@
 
     <link name="${prefix}_yaw_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${P_PI/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 -${P_PI/2}"/>
         <geometry>
           <mesh filename="package://pan_tilt_description/urdf/mesh/yaw.stl"/>
         </geometry>
@@ -43,7 +43,7 @@
 
     <link name="${prefix}_pitch_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${P_PI/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 -${P_PI/2}"/>
         <geometry>
           <mesh filename="package://pan_tilt_description/urdf/mesh/pitch.stl"/>
         </geometry>
