@@ -1,5 +1,5 @@
 # pan_tilt_ros
-IQR第四代云台ROS驱动
+IQR第四代云台ROS驱动，[在线手册](http://doc.iquotient-robotics.com/pan_tilt_unit_user_manual/)。
 
 ## 环境要求
 - Ubuntu 18.04
