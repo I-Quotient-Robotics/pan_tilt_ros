@@ -1,5 +1,5 @@
 ## pan tilt ststus msg
-Header  header
+std_msgs/Header header
 uint8   id
 string  serial_num
 string  hw_version

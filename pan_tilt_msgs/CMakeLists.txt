@@ -1,32 +1,35 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(pan_tilt_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
-  message_generation
-  roscpp
-  rospy
-  std_msgs
-  message_runtime
-  message_generation
-)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-add_message_files(
-  FILES
-  PanTiltCmdDeg.msg
-  PanTiltCmdRad.msg
-  PanTiltStatus.msg
-)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-generate_messages(DEPENDENCIES std_msgs)
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES pan_tilt_msgs
-#  CATKIN_DEPENDS message_generation roscpp rospy std_msgs
-#  DEPENDS system_lib
-)
+rosidl_generate_interfaces(${PROJECT_NAME}
+"msg/PanTiltCmdDeg.msg"
+"msg/PanTiltCmdRad.msg"
+"msg/PanTiltStatus.msg"
+"msg/PanJointState.msg"
+DEPENDENCIES 
+builtin_interfaces std_msgs)
 
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_export_dependencies(rosidl_default_runtime)
+
+ament_package()

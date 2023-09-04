@@ -1,23 +1,18 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(pan_tilt_bringup)
 
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_STANDARD 14)
 
-find_package(catkin REQUIRED COMPONENTS
-  std_msgs
-  roscpp
-  rospy
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic -Wno-dev)
+endif()
+
+find_package(ament_cmake REQUIRED
 )
 
-catkin_package(
-#	CATKIN_DEPENDS message_runtime 
-#  INCLUDE_DIRS include
-#  LIBRARIES pan_tilt_bringup
-#  CATKIN_DEPENDS dynamic_reconfigure message_generation roscpp rospy std_msgs tf
-#  DEPENDS system_lib
+install(
+  DIRECTORY launch DESTINATION share/${PROJECT_NAME}/
 )
 
-include_directories(
-	include
-  ${catkin_INCLUDE_DIRS}
-)
+ament_package()

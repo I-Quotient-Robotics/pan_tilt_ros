@@ -1,6 +1,7 @@
 #include "modbus_rtu_master.h"
 
-#include <ros/ros.h>
+#include "rclcpp/rclcpp.hpp"
+
 
 #define REBACK_SLEEP_MS 5
 
@@ -18,11 +19,11 @@ ModbusRTUMaster::ModbusRTUMaster(const std::string portNmae, const uint32_t baud
     //com_.setRTS(false);
     //com_.setDTR(false);
   } catch (serial::IOException &e) {
-    ROS_DEBUG_STREAM("Unable to open serial port:" << portNmae);
+    // RCLCPP_DEBUG(this->get_logger(),"Unable to open serial port:%s" , portNmae.c_str());
     return;
   }
 
-  ROS_DEBUG_STREAM("open serial port:" << portNmae << " successful!!");
+  // RCLCPP_DEBUG(this->get_logger(),"open serial port:%s successful!!" , portNmae.c_str());
     
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
@@ -33,7 +34,7 @@ ModbusRTUMaster::~ModbusRTUMaster() {
 
 uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint16_t address, const uint16_t length, uint16_t *data) {
   if (!com_.isOpen()) {
-    ROS_DEBUG("serial not open!!");
+    // RCLCPP_DEBUG(this->get_logger(),"serial not open!!");
     return 0;
   }
 
@@ -65,7 +66,7 @@ uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint
   size_t buffer_length = buffer_index + 3;
   size_t write_length = com_.write(send_buffer, buffer_length);
   if (buffer_length != write_length) {
-    ROS_DEBUG("Failed to send message!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Failed to send message!!");
     com_.flush();
     return 0;
   }
@@ -78,17 +79,17 @@ uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint
   size_t read_length = com_.read(receive_buffer, receive_length);
 
   if (receive_length != read_length) {
-    ROS_DEBUG("Failed to read message!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Failed to read message!!");
     com_.flush();
     return 0;
   }
   if (receive_buffer[0] != slave_id) {
-    ROS_DEBUG("Message ID error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message ID error!!");
     com_.flush();
     return 0;
   }
   if (receive_buffer[1] != function_num) {
-    ROS_DEBUG("Message fuction number error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message fuction number error!!");
     com_.flush();
     return 0;
   }
@@ -97,13 +98,13 @@ uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint
   uint16_t temp_length = uint16_t((receive_buffer[4] << 8) | receive_buffer[5]);
 
   if (temp_address != address) {
-    ROS_DEBUG("Message start address error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message start address error!!");
     com_.flush();
     return 0;
   }
 
   if (temp_length != length) {
-    ROS_DEBUG("Message read length error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message read length error!!");
     com_.flush();
     return 0;
   }
@@ -112,7 +113,7 @@ uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint
   uint16_t rec_crc_ = uint16_t((receive_buffer[receive_length - 1] << 8) | (receive_buffer[receive_length - 2]));
 
   if (rec_crc != rec_crc_) {
-    ROS_DEBUG("Message crc check error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message crc check error!!");
     com_.flush();
     return 0;
   }
@@ -123,7 +124,7 @@ uint8_t ModbusRTUMaster::SetMultipleRegisters(const uint8_t slave_id, const uint
 
 uint8_t ModbusRTUMaster::GetMultipleRegisters(const uint8_t slave_id, const uint16_t address, const uint16_t length, uint16_t *data) {
   if (!com_.isOpen()) {
-    ROS_DEBUG("serial not open!!");
+    // RCLCPP_DEBUG(this->get_logger(),"serial not open!!");
     return 0;
   }
 
@@ -147,7 +148,7 @@ uint8_t ModbusRTUMaster::GetMultipleRegisters(const uint8_t slave_id, const uint
   size_t write_length = com_.write(send_buffer, 8);
 
   if (write_length != 8) {
-    ROS_DEBUG("Failed to send message!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Failed to send message!!");
     com_.flush();
     return 0;
   }
@@ -159,25 +160,25 @@ uint8_t ModbusRTUMaster::GetMultipleRegisters(const uint8_t slave_id, const uint
   size_t read_length = com_.read(receive_buffer, receive_length);
 
   if (receive_length != read_length) {
-    ROS_DEBUG("Failed to read message!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Failed to read message!!");
     com_.flush();
     return 0;
   }
 
   if (receive_buffer[0] != slave_id) {
-    ROS_DEBUG("Message ID error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message ID error!!");
     com_.flush();
     return 0;
   }
 
   if (receive_buffer[1] != function_num) {
-    ROS_DEBUG("Message fuction number error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message fuction number error!!");
     com_.flush();
     return 0;
   }
 
   if (receive_buffer[2] != (length * 2)) {
-    ROS_DEBUG("Message data length error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message data length error!!");
     com_.flush();
     return 0;
   }
@@ -186,7 +187,7 @@ uint8_t ModbusRTUMaster::GetMultipleRegisters(const uint8_t slave_id, const uint
   uint16_t rec_crc_ = uint16_t((receive_buffer[receive_length - 1] << 8) | (receive_buffer[receive_length - 2]));
 
   if (rec_crc != rec_crc_) {
-    ROS_DEBUG("Message crc check error!!");
+    // RCLCPP_DEBUG(this->get_logger(),"Message crc check error!!");
     com_.flush();
     return 0;
   }
