@@ -13,14 +13,6 @@ IQR第四代云台ROS2驱动，[在线手册](http://doc.iquotient-robotics.com/
 - ROS Humble
 
 ## 安装与编译
-更新软件
-```shell
-sudo apt update
-```
-安装依赖项
-```shell
-sudo apt-get install ros-melodic-joy
-```
 创建ROS工作空间
 ```shell
 mkdir -p ~/ros2_ws/src
